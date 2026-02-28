@@ -107,7 +107,7 @@ export default function Home() {
         onToggleEducational={() => setShowEducational(v => !v)}
       />
 
-      <div className="flex-1 flex pt-12 overflow-hidden">
+      <div className="flex-1 flex pt-12 overflow-hidden relative">
         {/* Left sidebar - Market selector */}
         <div className="w-72 flex-shrink-0 border-r border-[var(--border)] flex flex-col bg-[var(--bg-secondary)]">
           <div className="px-3 py-2 border-b border-[var(--border)]">
@@ -125,7 +125,7 @@ export default function Home() {
         </div>
 
         {/* Center - 3D scene */}
-        <div className="flex-1 relative">
+        <div className="flex-1 min-w-0 relative overflow-hidden">
           {depths.length === 0 && !loading ? (
             <div className="flex flex-col items-center justify-center h-full text-[var(--text-muted)]">
               <div className="text-6xl mb-4 opacity-20">📊</div>
@@ -153,7 +153,7 @@ export default function Home() {
 
         {/* Right panel - Detail */}
         {focusedMarket && focusedDepth && (
-          <div className="w-80 flex-shrink-0 border-l border-[var(--border)] bg-[var(--bg-secondary)] animate-slide-in">
+          <div className="fixed top-12 right-0 bottom-0 w-80 border-l border-[var(--border)] bg-[var(--bg-secondary)] animate-slide-in z-20">
             <DepthPanel
               market={focusedMarket}
               depth={focusedDepth}
