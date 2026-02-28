@@ -109,7 +109,7 @@ export default function Home() {
 
       <div className="flex-1 flex pt-12 overflow-hidden relative">
         {/* Left sidebar - Market selector */}
-        <div className="w-72 flex-shrink-0 border-r border-[var(--border)] flex flex-col bg-[var(--bg-secondary)]">
+        <div className="w-72 flex-shrink-0 border-r border-[var(--border)] flex flex-col bg-[var(--bg-secondary)] z-10 relative">
           <div className="px-3 py-2 border-b border-[var(--border)]">
             <PlatformTabs active={activePlatform} onChange={setActivePlatform} counts={counts} />
           </div>
