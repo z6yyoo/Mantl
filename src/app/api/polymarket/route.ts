@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-const GAMMA_BASE = 'https://gamma-api.polymarket.com'
-const CLOB_BASE = 'https://clob.polymarket.com'
+import { POLYMARKET_API_ENDPOINTS } from '@/lib/types'
 
 const GAMMA_ENDPOINTS = ['events', 'markets', 'tags']
+const DATA_ENDPOINTS = ['trades', 'positions']
 const CLOB_ENDPOINTS = ['book', 'midpoint', 'price', 'spread']
 
 const cache = new Map<string, { data: unknown; ts: number }>()
@@ -18,13 +17,18 @@ export async function GET(req: NextRequest) {
   }
 
   const isClob = CLOB_ENDPOINTS.includes(endpoint)
+  const isData = DATA_ENDPOINTS.includes(endpoint)
   const isGamma = GAMMA_ENDPOINTS.includes(endpoint)
 
-  if (!isClob && !isGamma) {
+  if (!isClob && !isData && !isGamma) {
     return NextResponse.json({ error: 'Invalid endpoint' }, { status: 400 })
   }
 
-  const base = isClob ? CLOB_BASE : GAMMA_BASE
+  const base = isClob
+    ? POLYMARKET_API_ENDPOINTS.clob
+    : isData
+      ? POLYMARKET_API_ENDPOINTS.data
+      : POLYMARKET_API_ENDPOINTS.gamma
   const query = new URLSearchParams()
   params.forEach((value, key) => {
     if (key !== 'endpoint') query.set(key, value)

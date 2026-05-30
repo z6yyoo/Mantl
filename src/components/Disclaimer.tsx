@@ -1,14 +1,12 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { AlertTriangle, X } from 'lucide-react'
 
 export default function Disclaimer() {
-  const [dismissed, setDismissed] = useState(true) // hidden by default until hydrated
-
-  useEffect(() => {
-    const val = localStorage.getItem('poly31-disclaimer')
-    if (val !== 'dismissed') setDismissed(false)
-  }, [])
+  const [dismissed, setDismissed] = useState(() => {
+    if (typeof window === 'undefined') return true
+    return localStorage.getItem('poly31-disclaimer') === 'dismissed'
+  })
 
   const handleDismiss = () => {
     setDismissed(true)

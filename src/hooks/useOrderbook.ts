@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Market, MarketDepth, OrderBook, Platform } from '@/lib/types'
+import { Market, MarketDepth, OrderBook } from '@/lib/types'
 import { normalizeOrderbook, synthesizeDepthFromPrice } from '@/lib/depth'
 
 async function fetchPolymarketOrderbook(tokenId: string): Promise<OrderBook> {
@@ -136,20 +136,18 @@ export function useOrderbook(selectedMarkets: Market[]) {
 
   useEffect(() => {
     const newIds = selectedMarkets.map(m => m.id).join(',')
-    if (newIds !== prevIdsRef.current) {
-      prevIdsRef.current = newIds
-      fetchDepths()
-    }
-
     if (timerRef.current) clearTimeout(timerRef.current)
 
-    const poll = () => {
+    const shouldFetchNow = newIds !== prevIdsRef.current
+    prevIdsRef.current = newIds
+
+    const poll = (delay: number) => {
       timerRef.current = setTimeout(async () => {
         await fetchDepths()
-        poll()
-      }, 15000)
+        poll(15000)
+      }, delay)
     }
-    poll()
+    poll(shouldFetchNow ? 0 : 15000)
 
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current)

@@ -1,6 +1,6 @@
 'use client'
 import { useState, useMemo, useCallback } from 'react'
-import { Platform, Market } from '@/lib/types'
+import { Platform } from '@/lib/types'
 import { useMarkets } from '@/hooks/useMarkets'
 import { useOrderbook } from '@/hooks/useOrderbook'
 import { useIsMobile } from '@/hooks/useIsMobile'

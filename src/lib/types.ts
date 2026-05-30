@@ -12,6 +12,7 @@ export interface Market {
   volume: number
   volume24h?: number
   liquidity?: number
+  collateralCurrency?: 'pUSD' | 'USD'
   status: 'active' | 'closed'
   createdAt?: string
   endDate?: string
@@ -25,6 +26,31 @@ export interface Outcome {
   tokenId?: string
 }
 
+export interface PolymarketEvent {
+  id: string | number
+  title?: string
+  description?: string
+  image?: string
+  slug?: string
+  volume?: number
+  volume24hr?: number
+  liquidity?: number
+  startDate?: string
+  endDate?: string
+  markets?: PolymarketRawMarket[]
+}
+
+export interface PolymarketRawMarket extends Record<string, unknown> {
+  id?: string | number
+  question?: string
+  groupItemTitle?: string
+  outcomes?: string
+  outcomePrices?: string
+  clobTokenIds?: string
+  closed?: boolean
+  conditionId?: string
+}
+
 export const PLATFORM_COLORS: Record<Platform, string> = {
   polymarket: '#3B82F6',
   kalshi: '#A855F7',
@@ -36,6 +62,23 @@ export const PLATFORM_LABELS: Record<Platform, string> = {
   kalshi: 'Kalshi',
   opinion: 'Opinion',
 }
+
+export const POLYMARKET_API_ENDPOINTS = {
+  gamma: 'https://gamma-api.polymarket.com',
+  data: 'https://data-api.polymarket.com',
+  clob: 'https://clob.polymarket.com',
+} as const
+
+export const POLYMARKET_COLLATERAL_CURRENCY = 'pUSD'
+
+export const REAL_TRADING_ENABLED = false
+
+export const POLYMARKET_TRADING_CONFIG = {
+  enabled: REAL_TRADING_ENABLED,
+  mode: 'disabled-read-only-viewer',
+  collateralCurrency: POLYMARKET_COLLATERAL_CURRENCY,
+  clobEndpoint: POLYMARKET_API_ENDPOINTS.clob,
+} as const
 
 // Orderbook types
 export interface OrderBookEntry {

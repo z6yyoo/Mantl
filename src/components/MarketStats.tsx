@@ -4,7 +4,7 @@ import { formatVolume, formatPercent, formatSpread } from '@/lib/format'
 
 interface Props {
   depth: MarketDepth
-  market: { volume: number; volume24h?: number; liquidity?: number }
+  market: { volume: number; volume24h?: number; liquidity?: number; collateralCurrency?: string }
 }
 
 export default function MarketStats({ depth, market }: Props) {
@@ -36,7 +36,16 @@ export default function MarketStats({ depth, market }: Props) {
   ]
 
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <div className="space-y-2">
+      {market.collateralCurrency && (
+        <div className="glass-panel-sm px-3 py-2">
+          <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider">Collateral</div>
+          <div className="text-sm font-mono font-semibold mt-0.5 text-[var(--accent-blue)]">
+            {market.collateralCurrency}
+          </div>
+        </div>
+      )}
+      <div className="grid grid-cols-2 gap-2">
       {stats.map(s => (
         <div key={s.label} className="glass-panel-sm px-3 py-2" title={s.tooltip}>
           <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider">{s.label}</div>
@@ -45,6 +54,7 @@ export default function MarketStats({ depth, market }: Props) {
           </div>
         </div>
       ))}
+      </div>
     </div>
   )
 }

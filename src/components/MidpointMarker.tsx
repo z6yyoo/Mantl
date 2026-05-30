@@ -19,7 +19,7 @@ export default function MidpointMarker({ midpoint, isFocused, platform }: Props)
   const x = (midpoint - 0.5) * PLANE_WIDTH
   const color = PLATFORM_COLORS[platform]
 
-  useFrame((_, delta) => {
+  useFrame(() => {
     if (glowRef.current) {
       const mat = glowRef.current.material as THREE.MeshBasicMaterial
       mat.opacity = 0.3 + Math.sin(Date.now() * 0.003) * 0.15
